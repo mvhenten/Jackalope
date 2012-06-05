@@ -3,14 +3,11 @@ global = exports
 Suite =
     count: 1
     
-    throws_ok: ( fn, message )->
-        ok = false
+    throws_ok: ( fn, re, message )->
         try
             fn()
         catch error
-            console.log "  ok #{count} - #{message}"
-            ok = true
-        throw "  not ok #{count} - #{message}" unless ok
+            Suite.ok "#{error}".match( re ), message
 
         @count++
     
@@ -49,6 +46,9 @@ Suite =
             console.log "Test OK #{name}"
         else
             console.log "Failed #{name}"
+        
+        if @count != count + 1
+            console.log "# Dubious: expected #{count} tests, got #{@count-1}"
 
 global.export = (args...)->
     Suite[name] for name in args
