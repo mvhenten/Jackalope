@@ -4,12 +4,15 @@ Suite =
     count: 1
     
     throws_ok: ( fn, re, message )->
+        @count++
         try
             fn()
         catch error
-            Suite.ok "#{error}".match( re ), message
+            Suite.ok "#{error}".match( re ), "\"#{error}\" matches #{re}"
+            return
 
-        @count++
+        throw "  not ok #{count} - #{message}"
+
     
     ok: ( value, message )->
         throw "  not ok #{count} - #{message}" unless value

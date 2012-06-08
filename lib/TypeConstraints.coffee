@@ -9,7 +9,7 @@ class TypeConstraints
     @assert: ( ok, value, name, args ) =>
         if not ok
             throw "Assertion failed for " +
-                "#{name}, #{value} is not a #{args.isa}"
+                "'#{name}', '#{value}' is not a #{args.isa}"
         return true
 
     @Str: ( value, name, args )=>
@@ -19,10 +19,12 @@ class TypeConstraints
         @assert (typeof value == 'boolean'), value, name, args
 
     @Number: ( value, name, args )=>
-        @assert typeof value == 'number', value, name, args
+        @assert (typeof value == 'number' and not isNaN value),
+            value, name, args
 
     @Int: ( value, name, args )=>
-        @assert value % 1 == 0, value, name, args
+        @assert ( typeof value == 'number' and value % 1 == 0 ),
+            value, name, args
 
     @Object: ( value, name, args )=>
         @assert typeof value == 'object', value, name, args

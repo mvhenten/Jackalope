@@ -3,49 +3,56 @@ Jackalope = require '../lib/TypeConstraints'
 [test, ok, throws_ok] = require('./lib/test')
     .export 'test','ok','throws_ok'
 
-test 'Boolean', 6, ()->
+test 'Boolean', 7, ()->
     args = { isa: 'Bool' }
 
     cases =
-        throws_ok: [ 1, 'true', {}, [] ]
+        throws_ok: [ '' , 1, 'true', {}, [] ]
         ok: [ true, false ]
                         
     for value in cases.throws_ok
         do ( value )=>
             throws_ok ()->
-                Jackalope.TypeConstraints.check_type( value, '', args  )
-            , "#{value} isnt a boolean"
+                Jackalope.TypeConstraints.check_type( value, 'isa', args  )
+            , /is not a Bool/
 
     for value in cases.ok
         do ( value )=>
             ok Jackalope.TypeConstraints.check_type( value, '', args  )
             , "#{value} isa boolean"
 
-test 'Number', 8, ()->
+test 'Number', 12, ()->
     args = { isa: 'Number' }
 
     cases =
-        throws_ok: [ '1', 'true', {}, [] ]
+        throws_ok: [ '', '1', true, {}, [], NaN, undefined, null ]
         ok: [ 1, 0.1, 1.2, 42 ]
             
     for value in cases.throws_ok
         do ( value )=>
             throws_ok ()->
                 Jackalope.TypeConstraints.check_type( value, '', args  )
-            , "#{value} isnt a number"
+            , /is not a Number/
 
     for value in cases.ok
         do ( value )=>
             ok Jackalope.TypeConstraints.check_type( value, '', args  )
             , "#{value} isa number"
 
-test 'Int', 2, ()->
+test 'Int', 10, ()->
     args = { isa: 'Int' }
 
-    throws_ok ()->
-        args = { isa: 'Int' }
-        Jackalope.TypeConstraints.check_type( 'not int', 'test bool', args  )
-    , 'not an int'
+    cases =
+        throws_ok: [ '', '1', true, {}, [], NaN, undefined, null ]
+        ok: [ 1, 0 ]
             
-    ok Jackalope.TypeConstraints.check_type( 1, 'test bool', args  )
-    , 'is a int'
+    for value in cases.throws_ok
+        do ( value )=>
+            throws_ok ()->
+                Jackalope.TypeConstraints.check_type( value, '', args  )
+            , /is not a Int/
+
+    for value in cases.ok
+        do ( value )=>
+            ok Jackalope.TypeConstraints.check_type( value, '', args  )
+            , "#{value} isa number"
