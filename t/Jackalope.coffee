@@ -30,7 +30,7 @@ class Student extends Jackalope
         isa: 'Number'
         
 
-test 'Constructor sets attributes', 3, ()->
+test 'Factory sets attributes', 3, ()->
     defaults =
         name: 'Tester',
         age:    42,
@@ -44,7 +44,7 @@ test 'Constructor sets attributes', 3, ()->
 test 'Constructor checks type constraints', 1, ()->        
     throws_ok ()->
         student = new Student( age: 1.4 )
-    , /Assertion failed for age, 1.4 is not a Int/
+    , /Assertion failed for 'age', '1.4' is not a Int/
     , 'Typeconstraints work on constructor'
     
 test 'Accessor', 1, ()->
