@@ -11,13 +11,6 @@ TypeConstraints = require('./TypeConstraints').TypeConstraints
 #
 
 class Jackalope    
-        
-    @has: (name, args)->
-        @prototype.__meta__ ?= { attributes: {} }
-        @prototype.__meta__.attributes[name] = args
-        
-        Jackalope.Meta.__create_accessor @prototype,
-            name, args
 
     constructor: (ctor_args...)->
         for name, config of @attributes()
@@ -28,50 +21,61 @@ class Jackalope
             if config.required
                throw "#{name} is required!" unless value
         
-            Jackalope.Meta.__write_value.call this,
+            Jackalope.Meta.writeValue.call this,
                 name, value, config
-
-    attributes: ()->
-        return @__attributes ?=
-            Jackalope.Meta.__construct_attributes.call( this )
 
 
 
 
         
 Jackalope.Meta =
-    attributes: ( proto )->
-        collect = {}
+    has: (name, args)->
+        @prototype.__meta__ ?= { attributes: {} }
+        @prototype.__meta__.attributes[name] = args
+        
+        Jackalope.Meta.createAccessor @prototype,
+            name, args
 
-        for key, value of proto.__meta__.attributes
-            collect[key] = value
+    attributes: ()->
+        return @__attributes ?=
+            Jackalope.Meta.constructAttributes.call this
+            
+    constructor: (ctor_args...)->
+        for name, config of @attributes()
+            value = ctor_args[0]?[name]
+            
+            continue unless value or config.required
+        
+            if config.required
+               throw "#{name} is required!" unless value
+        
+            Jackalope.Meta.writeValue.call this,
+                name, value, config
 
-        return collect
-
-    __create_accessor: ( proto, name, args )->
+    createAccessor: ( proto, name, args )->
         proto[name] = ( value ) ->
-            Jackalope.Meta.__construct_default.call( this, name, args ) unless @__values?[name]
-            Jackalope.Meta.__construct_lazy.call( this, name, args ) unless @__values?[name]
+            Jackalope.Meta.constructDefault.call( this, name, args ) unless @__values?[name]
+            Jackalope.Meta.constructLazy.call( this, name, args ) unless @__values?[name]
     
             return @__values?[name]
     
-        Jackalope.Meta.__create_writer( proto, name, args ) if args.writer
+        Jackalope.Meta.createWriter( proto, name, args ) if args.writer
 
-    __create_writer: ( proto, name, args )->
+    createWriter: ( proto, name, args )->
         proto[args.writer] = ( value )->
-            Jackalope.Meta.__write_value.call( this, name, value, args )
+            Jackalope.Meta.writeValue.call( this, name, value, args )
 
-    __write_value: ( name, value, args )->
+    writeValue: ( name, value, args )->
         TypeConstraints.check_type( value, name, args )
 
         @__values ?= {}
         @__values[name] = value
         
-    __construct_default: ( name, args )->
+    constructDefault: ( name, args )->
         return unless args.default
-        Jackalope.Meta.__write_value.call( this, name, args.default, args )
+        Jackalope.Meta.writeValue.call( this, name, args.default, args )
 
-    __construct_attributes: ()->
+    constructAttributes: ()->
         collect = {}
 
         for key, value of @__meta__.attributes
@@ -79,33 +83,25 @@ Jackalope.Meta =
 
         return collect;
     
-    __construct_lazy: ( name, args )->
+    constructLazy: ( name, args )->
         return unless args.lazy_build
-        Jackalope.Meta.__validate_config_build.call this, name, args
-        Jackalope.Meta.__write_value.call( this, name, @["_build_#{name}"](), args )
+        Jackalope.Meta.validateConfigBuild.call this, name, args
+        Jackalope.Meta.writeValue.call( this, name, @["_build_#{name}"](), args )
 
-    __validate_config_build: ( name, args )->
+    validateConfigBuild: ( name, args )->
         if args.lazy_build?
             throw "method _build_#{name} not found" unless @["_build_#{name}"]?
 
 extend = ( inst )->
-    inst.has = Jackalope.has
+    inst.has = Jackalope.Meta.has
     
-    inst.prototype.attributes = Jackalope.prototype.attributes
+    inst.prototype.attributes = Jackalope.Meta.attributes
     inst.prototype.constructor = Jackalope.prototype.constructor
 
 
-# intermediate: prototypical inheritance
 class Jackalope.Base
-    # but with mixin
+    # but with mixin             
     extend this
     
             
 exports.Jackalope = Jackalope.Base
-exports.extend = ( klass )->
-    console.log Jackalope 'extend'
-    throw 'done'
-    for name, fn in Jackalope
-        do ()->
-            console.log name, 'setting'
-            klass.prototype[name] = fn
