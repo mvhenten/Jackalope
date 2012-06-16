@@ -1,70 +1,101 @@
 TypeConstraints = require('./TypeConstraints').TypeConstraints
 # TODO
-# - predicate
-# - init_arg
-# - trigger
-# - handles
-# - native traits
+# - predicate methods
 # ...methods
-# ...move attributes into separate namespace ( attribute namespace )
+# ...merge typeconstraints into this file
 # ...separate real methods from attributes
-#
 
-class Jackalope    
-
-    constructor: (ctor_args...)->
-        for name, config of @attributes()
-            value = ctor_args[0]?[name]
-            
-            continue unless value or config.required
-        
-            if config.required
-               throw "#{name} is required!" unless value
-        
-            Jackalope.Meta.writeValue.call this,
-                name, value, config
-
-
-
+Jackalope = {}   
 
         
 Jackalope.Meta =
+    extend: ( obj )->
+        obj.has = Jackalope.Meta.has    
+        obj.prototype.attributes = Jackalope.Meta.attributes
+    
     has: (name, args)->
         @prototype.__meta__ ?= { attributes: {} }
         @prototype.__meta__.attributes[name] = args
         
-        Jackalope.Meta.createAccessor @prototype,
+        Jackalope.Attributes.createAccessor @prototype,
             name, args
 
     attributes: ()->
         return @__attributes ?=
-            Jackalope.Meta.constructAttributes.call this
+            Jackalope.Attributes.constructAttributes.call this
             
-    constructor: (ctor_args...)->
+    construct: (ctor_args...)->
         for name, config of @attributes()
-            value = ctor_args[0]?[name]
+            key = if config.init_arg then config.init_arg else name
+            
+            value = ctor_args[0]?[key]
             
             continue unless value or config.required
         
             if config.required
-               throw "#{name} is required!" unless value
+               throw Error "#{key} is required!" unless value
         
-            Jackalope.Meta.writeValue.call this,
+            Jackalope.Attributes.writeValue.call this,
                 name, value, config
 
+Jackalope.Traits =
+    create: ( trait, proto, name, args )->
+        throw Error "trait #{trait} does not exist" unless Jackalope.Traits[trait]
+    
+        for handle, trait_handler of args.handles
+            delete args.handles[handle] if Jackalope.Traits[trait][trait_handler]            
+            proto[handle] = Jackalope.Traits.createHandler trait, trait_handler, name
+                
+    createHandler: ( trait, handler, name )->
+        return ( value )->
+            Jackalope.Traits[trait][handler]( @[name]() )
+            
+    Object:
+        keys: ( obj )->
+            (key for key, value of obj)
+
+        values: ( obj )->
+            (value for key, value of obj)
+
+        copy: ( obj )->
+            collect = {}
+            ( collect[key] = value for key, value of obj )
+            
+            collect
+            
+        kv: ( obj )->
+            ( [key, value] for key, value of obj )
+
+
+Jackalope.Attributes =
     createAccessor: ( proto, name, args )->
         proto[name] = ( value ) ->
-            Jackalope.Meta.constructDefault.call( this, name, args ) unless @__values?[name]
-            Jackalope.Meta.constructLazy.call( this, name, args ) unless @__values?[name]
+            Jackalope.Attributes.constructDefault.call( this, name, args ) unless @__values?[name]
+            Jackalope.Attributes.constructLazy.call( this, name, args ) unless @__values?[name]
     
             return @__values?[name]
     
-        Jackalope.Meta.createWriter( proto, name, args ) if args.writer
+        Jackalope.Attributes.createWriter( proto, name, args ) if args.writer
+        Jackalope.Attributes.createTraits( proto, name, args ) if args.traits
+        Jackalope.Attributes.createHandles( proto, name, args ) if args.handles
 
     createWriter: ( proto, name, args )->
         proto[args.writer] = ( value )->
-            Jackalope.Meta.writeValue.call( this, name, value, args )
-
+            Jackalope.Attributes.writeValue.call( this, name, value, args )
+            
+            if args.trigger
+                throw Error "trigger for #{name} is not a function" unless typeof args.trigger is 'function'
+                args.trigger.call this, value
+                
+    createTraits: ( proto, name, args )->
+        for trait in args.traits
+            Jackalope.Traits.create trait, proto, name, args
+            
+    createHandles: ( proto, name, args )->        
+        for caller, handler of args.handles
+            proto[caller] = ()->
+                @[name]()[handler]()
+                
     writeValue: ( name, value, args )->
         TypeConstraints.check_type( value, name, args )
 
@@ -72,8 +103,8 @@ Jackalope.Meta =
         @__values[name] = value
         
     constructDefault: ( name, args )->
-        return unless args.default
-        Jackalope.Meta.writeValue.call( this, name, args.default, args )
+        return unless args.default?
+        Jackalope.Attributes.writeValue.call( this, name, args.default, args )
 
     constructAttributes: ()->
         collect = {}
@@ -85,23 +116,30 @@ Jackalope.Meta =
     
     constructLazy: ( name, args )->
         return unless args.lazy_build
-        Jackalope.Meta.validateConfigBuild.call this, name, args
-        Jackalope.Meta.writeValue.call( this, name, @["_build_#{name}"](), args )
+        Jackalope.Attributes.validateConfigBuild.call this, name, args
+        Jackalope.Attributes.writeValue.call( this, name, @["_build_#{name}"](), args )
 
     validateConfigBuild: ( name, args )->
         if args.lazy_build?
-            throw "method _build_#{name} not found" unless @["_build_#{name}"]?
+            throw Error "method _build_#{name} not found" unless @["_build_#{name}"]?
+        
+        
 
-extend = ( inst )->
-    inst.has = Jackalope.Meta.has
+extend = ( Obj )->
+    Jackalope.Meta.extend Obj
     
-    inst.prototype.attributes = Jackalope.Meta.attributes
-    inst.prototype.constructor = Jackalope.prototype.constructor
+    Obj.create = ()->
+        instance = new Obj()
+ 
+        Jackalope.Meta.construct.apply instance, arguments
+        return instance
 
 
-class Jackalope.Base
-    # but with mixin             
-    extend this
-    
+class Jackalope.Class    
+    constructor: (args...)->
+        Jackalope.Meta.construct.apply this, args
+
+Jackalope.Meta.extend Jackalope.Class
             
-exports.Jackalope = Jackalope.Base
+exports.Class = Jackalope.Class
+exports.extend = extend

@@ -33,7 +33,6 @@ class TypeConstraints
         @assert typeof value == 'function', value, name, args
         
     @__Instance: ( value, name, args )=>
-        @Function( value, name, args )
         @assert  value instanceof args.isa, value, name, args
 
 exports.TypeConstraints = TypeConstraints
