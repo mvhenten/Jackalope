@@ -27,7 +27,8 @@ class TypeConstraints
             value, name, args
 
     @Object: ( value, name, args )=>
-        @assert typeof value == 'object', value, name, args
+        @assert ( typeof value == 'object' and value isnt null ),
+            value, name, args
 
     @Function: ( value, name, args )=>
         @assert typeof value == 'function', value, name, args
