@@ -3,10 +3,9 @@
 
 ## Introduction
 
-Jackalope is a class extension system with an API based entirely on Moose, the post-modern class system for perl.
-Jackalope is written in Coffeescript, and has primarily been written with a
-server-side environment in mind. That being said, Coffeescript **is just javascript** so Jackalope should be fairly portable.
-Implementation is kept as close to the Moose API as is in Javascript sane, and possible. Fortunately, surprisingly little trickery is needed to implement a nearly identical vocabulary and appearance usage using basic Javascript techniques.
+Jackalope is a class extension system with an API based entirely on Moose, the post-modern class system for perl.Jackalope is written in Coffeescript, and has primarily been written with a server-side environment in mind.
+
+That being said, Coffeescript **is just javascript** so Jackalope should be fairly portable. Implementation is kept as close to the Moose API as is in Javascript sane, and possible. Fortunately, surprisingly little trickery is needed to implement a nearly identical vocabulary and appearance usage using basic Javascript techniques.
 
 ## Usage
 
@@ -32,7 +31,7 @@ class Circle extends Jackalope.Class
         lazy_build: true
         clearer: '  clearCircumference'
 
-    _build_radius: () ->
+    _build_circumference: () ->
         return (2 * @diameter()) * Math.PI
 
 # built in constructor
