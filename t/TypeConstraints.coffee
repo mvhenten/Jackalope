@@ -2,100 +2,72 @@ Jackalope = require '../lib/TypeConstraints'
 
 [test, ok, throws_ok] = require('./lib/test')
     .export 'test','ok','throws_ok'
-    
-# TODO remove duplication!
 
-test 'Boolean', 7, ()->
-    args = { isa: 'Bool' }
+class Foo
+    constructor: ()->
+        # pass
 
-    cases =
+cases =
+    Boolean:
+        isa: 'Bool'
         throws_ok: [ '' , 1, 'true', {}, [] ]
         ok: [ true, false ]
-                        
-    for value in cases.throws_ok
-        do ( value )=>
-            throws_ok ()->
-                Jackalope.TypeConstraints.check_type( value, 'isa', args  )
-            , /is not a Bool/
 
-    for value in cases.ok
-        do ( value )=>
-            ok Jackalope.TypeConstraints.check_type( value, '', args  )
-            , "#{value} isa boolean"
-
-test 'Number', 12, ()->
-    args = { isa: 'Number' }
-
-    cases =
+    Number:
+        isa: 'Number'
         throws_ok: [ '', '1', true, {}, [], NaN, undefined, null ]
         ok: [ 1, 0.1, 1.2, 42 ]
-            
-    for value in cases.throws_ok
-        do ( value )=>
-            throws_ok ()->
-                Jackalope.TypeConstraints.check_type( value, '', args  )
-            , /is not a Number/
 
-    for value in cases.ok
-        do ( value )=>
-            ok Jackalope.TypeConstraints.check_type( value, '', args  )
-            , "#{value} isa number"
-
-test 'Int', 10, ()->
-    args = { isa: 'Int' }
-
-    cases =
+    Int:
+        isa: 'Int'
         throws_ok: [ '', '1', true, {}, [], NaN, undefined, null ]
         ok: [ 1, 0 ]
-            
-    for value in cases.throws_ok
-        do ( value )=>
-            throws_ok ()->
-                Jackalope.TypeConstraints.check_type( value, '', args  )
-            , /is not a Int/
 
-    for value in cases.ok
-        do ( value )=>
-            ok Jackalope.TypeConstraints.check_type( value, '', args  )
-            , "#{value} isa number"
+    Str:
+        isa: 'Str'
+        throws_ok: [ 1, 0, true, {}, [], NaN, undefined, null ]
+        ok: [ '', '1', ( new String('') ) ]
 
-test 'instance of class', 12, ()->
-    class Foo
-        constructor: ()->            
-            # pass
-        
-    args = { isa: Foo }
-
-    cases =
-        throws_ok: [ '', '1', true, {}, [], NaN, undefined, null, (new Object()), -> ]
-        ok: [ (new Foo()) ]
-            
-    for value in cases.throws_ok
-        do ( value )=>
-            throws_ok ()->
-                Jackalope.TypeConstraints.check_type( value, 'Foo', args  )
-            , /is not a function Foo/
-
-    for value in cases.ok
-        do ( value )=>
-            ok Jackalope.TypeConstraints.check_type( value, 'Foo', args  )
-            , "#{value} isa Foo"
-
-
-test 'Function', 12, ()->        
-    args = { isa: 'Function' }
-
-    cases =
+    Function:
+        isa: 'Function'
         throws_ok: [ '', '1', true, {}, [], NaN, undefined, null, (new Object()) ]
         ok: [ (->) ]
-            
-    for value in cases.throws_ok
-        do ( value )=>
-            throws_ok ()->
-                Jackalope.TypeConstraints.check_type( value, 'Foo', args  )
-            , /is not a Function/
 
-    for value in cases.ok
-        do ( value )=>
-            ok Jackalope.TypeConstraints.check_type( value, 'Foo', args  )
-            , "#{value} isa function"
+    Object:
+        isa: 'Object'
+        throws_ok: [ '', '1', true, NaN, undefined, null ]
+        ok: [ {}, ( new Object() ) ]
+
+    Array:
+        isa: 'Array'
+        throws_ok: [ '', '1', true, {}, NaN, undefined, null, (new Object()) ]
+        ok: [ [1,2], [null, 1, true], new Array() ]
+
+    InstanceOf:
+        isa: Foo
+        throws_ok: [ '', '1', true, {}, [], NaN, undefined, null, (new Object()), -> ]
+        ok: [ (new Foo()) ]
+
+
+runTestCase = ( name, cases )->
+    for key, value of cases
+      n_tests = ( n_tests ? 0 ) + value.length
+
+    test "#{name}", n_tests, ()->
+        args = { isa: test_case.isa }
+
+        for value in test_case.throws_ok
+            do ( value )=>
+                throws_ok ()->
+                    Jackalope.TypeConstraints.check_type( value, 'isa', args  )
+                , /is not a/
+
+        for value in test_case.ok
+            do ( value )=>
+                console.log value instanceof Array, 'ok'
+
+                ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
+                , "#{value} isa #{args.isa}"
+
+
+runTestCase( name, test_case ) for name, test_case of cases
