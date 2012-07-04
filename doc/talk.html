@@ -3,23 +3,22 @@
     <head>
         <link rel="stylesheet" href="http://yandex.st/highlightjs/7.0/styles/default.min.css">
         <script src="http://yandex.st/highlightjs/7.0/highlight.min.js"></script>
-        <script src="impress.js"></script>
         <style>
             @import url(http://fonts.googleapis.com/css?family=Karla:400,700,700italic,400italic);
 body {
-    font: 120% 'Karla';
+    font: 80% 'Karla';
     height: 100%;
     background-color: #eee;
 }
 
 .slide {
-    width:60%;
+/*    width:60%;
     height: 80%;
     border: 1px solid ddd;
     padding: 1em;
     margin: 1em auto;
     background-color: #fefefe;
-}
+*/}
 
 img {
     display: block;
@@ -41,7 +40,11 @@ h4 {
 }
 
 dt {
-    font-weight: bold;    
+    font-weight: bold;
+}
+
+code {
+    font-size: 3em;
 }
 
 quote{
@@ -52,92 +55,93 @@ quote{
     padding: 1em;
     margin: 1em;
 }
-        
+
         </style>
     </head>
 <body>
     <div id="impress">
-    <div class="slide" id="0">
-    
+
+    <div  data-x="-5000" data-y="-5000" data-scale="1" class="slide step" id="0">
+
     <h2>Jackalope - Javascript with Antlers</h2>
     <h4><em>( actually, coffeescript... )</em></h4>
-    
+
     <img src="jackalope.jpg" />
-    
+
     </div>
-    
-    <div class="slide" id="0.1">
-    
+
+    <div  data-x="-4000" data-y="-4000" data-rotate="0" data-scale="1" class="slide step" id="0.1">
+
     <h2> A short quiz </h2>
-    
+
     </div>
-    
-    <div class="slide" id="1">
-    
+
+    <div  data-x="-3000" data-y="-3000" data-rotate="0" data-scale="1" class="slide step" id="1">
+
     <pre>
     <code class="javascript">
 var n = 'foo' / 2
 typeof n == ...
     </code>
     </pre>
-    
+
     </div>
-    <div class="slide" id="1.1">
-    
+    <div  data-x="-2000" data-y="-2000" data-rotate="90" data-scale="1" class="slide step" id="1.1">
+
     <h4><em>'number'</em></h4>
-    
+
     </div>
-    <div class="slide" id="2">
-    
+    <div  data-x="-1000" data-y="-1000" data-rotate="0" data-scale="1" class="slide step" id="2">
+
     <pre>
     <code class="javascript">
 var n = ''
 n % 2 = ...
     </code>
     </pre>
-    
+
     </div>
-    <div class="slide" id="2.1">
-    
+    <div  data-x="0" data-y="0" data-rotate="90" data-scale="1" class="slide step" id="1.1">
+
     <h4><em>0</em></h4>
-    
+
     </div>
-    <div class="slide" id="3">
-    
+    <div  data-x="1000" data-y="1000" data-rotate="0" data-scale="1" class="slide step" id="3">
+
     <pre>
     <code class="javascript">
 var n = null
 typeof n == ...
     </code>
     </pre>
-    
+
     </div>
-    <div class="slide" id="3.1">
-    
+    <div  data-x="2000" data-y="2000" data-rotate="0" data-scale="1" class="slide step" id="3.1">
+
     <h4><em>'object'</em></h4>
-    
+
     </div>
-    <div class="slide" id="4">
-    
+    <div  data-x="0" data-y="0" data-rotate="0" data-scale="1" class="slide step" id="4">
+
     <pre>
     <code class="javascript">
 var a = []
 typeof a == ...
     </code>
     </pre>
-    
+
     </div>
-    <div class="slide" id="4.1">
-    
+    <div  data-x="3000" data-y="3000" data-rotate="0" data-scale="1" class="slide step" id="4.1">
+
     <h4><em>'object'</em></h4>
-    
+
     <em>...better use instanceof Array </em>
-    
+
     </div>
-    <div class="slide" id="5">
-    
+    <div  data-x="4000" data-y="4000" data-rotate="0" data-scale="1" style="font-size: 70%" class="slide step" id="5">
+
     Simple type checks
-    
+
     <pre>
     <code class="javascript">
 // check for integer
@@ -147,60 +151,60 @@ typeof a == ...
 !!(value && toString.call(value) == "[object Object]" && value.__proto__ == Object.prototype)
     </code>
     </pre>
-    
+
     <p>And what was that again with <code>undefined</code> or <code>null</code> and <code>===</code></p>
-    
+
     </div>
-    <div class="slide" id="6">
-    
+    <div  data-x="5000" data-y="5000" data-rotate="0" data-scale="1" class="slide step" id="6">
+
     <h4><strong><em>We need constraints!</em></strong></h4>
-    
+
     <img src="origami.jpg" />
-    
+
     </div>
-    <div class="slide" id="7">
-    
+    <div  data-x="5500" data-y="5500" data-rotate="0" data-scale="1" class="slide step" id="7">
+
     <p>Jackalope is a set of mixins that add an API inspired by Moose,
     the *post-modern* object system for perl, to coffeescript classes and javascript objects.</p>
-    
+
     </div>
-    <div class="slide" id="8">
-    
+    <div  data-x="6000" data-y="6000" data-rotate="0" data-scale="1" class="slide step" id="8">
+
     <p>Declarative interface:</p>
-    
+
     <script src="https://gist.github.com/3043921.js?file=slide8.coffee"></script>
-    
+
     </div>
-    <div class="slide" id="9">
-    
+    <div  data-x="7000" data-y="7000" data-rotate="0" data-scale="1" class="slide step" id="9">
+
     <p>Non-native types:</p>
-    
+
     <script src="https://gist.github.com/3043926.js?file=slide9.coffee"></script>
-    
+
     </div>
-    <div class="slide" id="10">
-    
+    <div  data-x="8000" data-y="8000" data-rotate="0" data-scale="1" class="slide step" id="10">
+
     <p>Runtime typechecks in constructor</p>
-    
+
     <script src="https://gist.github.com/3043940.js?file=slide10.coffee"></script>
-    
+
     </div>
-    <div class="slide" id="11">
-    
+    <div  data-x="9000" data-y="9000" data-rotate="0" data-scale="1" class="slide step" id="11">
+
     <p>Lazy initialization, method generation, triggers:</p>
-    
+
     <script src="https://gist.github.com/3043876.js?file=slide11.coffee">
     </script>
-    
+
     </div>
-    <div class="slide" id="12">
+    <div  data-x="10000" data-y="10000" data-rotate="0" data-scale="1" class="slide step" id="12">
     <h4>Status</h4>
     <ul>
         <li>proof-of-concept</li>
         <li>modest test-suite</li>
         <li>code shown is code working</li>
     </ul>
-    
+
     <dl>
         <dt>Code:</dt>
         <dd>https://github.com/mvhenten/Jackalope</dd>
@@ -209,12 +213,14 @@ typeof a == ...
         <dt>The jackalope conspiracy:</dt>
         <dd>http://www.sudftw.com/jackcon.htm</dd>
     </dl>
-    
+
     <quote>&#147;Legend also has it that female jackalopes can be milked as they sleep belly up and that the milk can be used for a variety of medicinal purposes&#148;</quote>
-    
+
     </div>
-        
+
     </div>
+    <script src="impress.js"></script>
+    <script>impress().init();</script>
     <script>
         var code = document.getElementsByTagName('code');
         for( c in code ){
@@ -222,5 +228,7 @@ typeof a == ...
             hljs.highlightBlock(code[c], null, false)
     }
     </script>
+
+
 </body>
 </html>
