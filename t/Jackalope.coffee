@@ -3,6 +3,7 @@
 
 Jackalope = require('../lib/Jackalope')
 
+
 class Student extends Jackalope.Class
     @has 'name',
         isa: 'Str'

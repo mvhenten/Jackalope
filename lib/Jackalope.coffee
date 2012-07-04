@@ -4,6 +4,7 @@ TypeConstraints = require('./TypeConstraints').TypeConstraints
 # ...methods
 # ...merge typeconstraints into this file
 # ...separate real methods from attributes
+# ...create python/jquery like class constructors
 
 Jackalope = {}   
 

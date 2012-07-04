@@ -18,7 +18,8 @@ body {
     padding: 1em;
     margin: 1em auto;
     background-color: #fefefe;
-*/}
+*/
+}
 
 img {
     display: block;
@@ -39,12 +40,20 @@ h4 {
     font-size: 2em;
 }
 
+h5 {
+    font-size: 1.2em;    
+}
+
 dt {
     font-weight: bold;
 }
 
+pre code{
+    background-color: #fff;
+}
 code {
     font-size: 3em;
+    font-family: monospace;
 }
 
 quote{
@@ -56,6 +65,18 @@ quote{
     margin: 1em;
 }
 
+.blink {
+    text-decoration: "blink";
+    color: #669;
+}
+
+.green{
+    color: #696;
+}
+
+.orange{
+    color: #966;    
+}
         </style>
     </head>
 <body>
@@ -70,13 +91,13 @@ quote{
 
     </div>
 
-    <div  data-x="-4000" data-y="-4000" data-rotate="0" data-scale="1" class="slide step" id="0.1">
+    <div  data-x="-4000" data-y="-4000" data-rotate="0" data-scale="1" class="slide step" id="1">
 
     <h2> A short quiz </h2>
 
     </div>
 
-    <div  data-x="-3000" data-y="-3000" data-rotate="0" data-scale="1" class="slide step" id="1">
+    <div  data-x="-3000" data-y="-3000" data-rotate="0" data-scale="1" class="slide step" id="2">
 
     <pre>
     <code class="javascript">
@@ -86,12 +107,12 @@ typeof n == ...
     </pre>
 
     </div>
-    <div  data-x="-2000" data-y="-2000" data-rotate="90" data-scale="1" class="slide step" id="1.1">
+    <div  data-x="-2000" data-y="-2000" data-rotate="0" data-scale="1" class="slide step" id="3">
 
-    <h4><em>'number'</em></h4>
+    <h2><em>'number'</em></h2>
 
     </div>
-    <div  data-x="-1000" data-y="-1000" data-rotate="0" data-scale="1" class="slide step" id="2">
+    <div  data-x="-1000" data-y="-1000" data-rotate="0" data-scale="1" class="slide step" id="4">
 
     <pre>
     <code class="javascript">
@@ -101,12 +122,12 @@ n % 2 = ...
     </pre>
 
     </div>
-    <div  data-x="0" data-y="0" data-rotate="90" data-scale="1" class="slide step" id="1.1">
+    <div  data-x="-500" data-y="-500" data-rotate="0" data-scale="1" class="slide step" id="5">
 
-    <h4><em>0</em></h4>
+    <h2><em>0</em></h2>
 
     </div>
-    <div  data-x="1000" data-y="1000" data-rotate="0" data-scale="1" class="slide step" id="3">
+    <div  data-x="1000" data-y="1000" data-rotate="0" data-scale="1" class="slide step" id="6">
 
     <pre>
     <code class="javascript">
@@ -116,12 +137,12 @@ typeof n == ...
     </pre>
 
     </div>
-    <div  data-x="2000" data-y="2000" data-rotate="0" data-scale="1" class="slide step" id="3.1">
+    <div  data-x="2000" data-y="2000" data-rotate="0" data-scale="1" class="slide step" id="7">
 
-    <h4><em>'object'</em></h4>
+    <h2><em>'object'</em></h2>
 
     </div>
-    <div  data-x="0" data-y="0" data-rotate="0" data-scale="1" class="slide step" id="4">
+    <div  data-x="0" data-y="0" data-rotate="0" data-scale="1" class="slide step" id="8">
 
     <pre>
     <code class="javascript">
@@ -131,16 +152,16 @@ typeof a == ...
     </pre>
 
     </div>
-    <div  data-x="3000" data-y="3000" data-rotate="0" data-scale="1" class="slide step" id="4.1">
+    <div  data-x="3000" data-y="3000" data-rotate="0" data-scale="1" class="slide step" id="9">
 
-    <h4><em>'object'</em></h4>
+    <h2><em>'object'</em></h2>
 
-    <em>...better use instanceof Array </em>
+    <h4><em>...better use instanceof Array </em></h4>
 
     </div>
-    <div  data-x="4000" data-y="4000" data-rotate="0" data-scale="1" style="font-size: 70%" class="slide step" id="5">
+    <div  data-x="4000" data-y="4000" data-rotate="0" data-scale="1" style="font-size: 70%" class="slide step" id="10">
 
-    Simple type checks
+    <h2>Simple type checks</h2>
 
     <pre>
     <code class="javascript">
@@ -152,44 +173,44 @@ typeof a == ...
     </code>
     </pre>
 
-    <p>And what was that again with <code>undefined</code> or <code>null</code> and <code>===</code></p>
+    <h2>And what was that again with <code>undefined</code> or <code>null</code> and <code>===</code></h2>
 
     </div>
-    <div  data-x="5000" data-y="5000" data-rotate="0" data-scale="1" class="slide step" id="6">
+    <div  data-x="4000" data-y="5000" data-rotate="0" data-scale="1" class="slide step" id="11">
 
     <h4><strong><em>We need constraints!</em></strong></h4>
 
     <img src="origami.jpg" />
 
     </div>
-    <div  data-x="5500" data-y="5500" data-rotate="0" data-scale="1" class="slide step" id="7">
+    <div style="font-size:200%" data-x="5500" data-y="5500" data-rotate="0" data-scale="1" class="slide step" id="12">
 
-    <p>Jackalope is a set of mixins that add an API inspired by Moose,
-    the *post-modern* object system for perl, to coffeescript classes and javascript objects.</p>
+    <h5><span class="blink">Jackalope</span> is a set of <span class="green">mixins</span> that add an API inspired by <span class="orange">Moose</span>,
+    the <div class="blink">*post-modern*</div> object system for perl, to <em>coffeescript</em> classes and javascript objects.</h5>
 
     </div>
-    <div  data-x="6000" data-y="6000" data-rotate="0" data-scale="1" class="slide step" id="8">
+    <div  data-x="6000" data-y="6500" data-rotate="0" data-scale="1" class="slide step" id="13">
 
     <p>Declarative interface:</p>
 
     <script src="https://gist.github.com/3043921.js?file=slide8.coffee"></script>
 
     </div>
-    <div  data-x="7000" data-y="7000" data-rotate="0" data-scale="1" class="slide step" id="9">
+    <div  data-x="7000" data-y="7000" data-rotate="0" data-scale="1" class="slide step" id="14">
 
     <p>Non-native types:</p>
 
     <script src="https://gist.github.com/3043926.js?file=slide9.coffee"></script>
 
     </div>
-    <div  data-x="8000" data-y="8000" data-rotate="0" data-scale="1" class="slide step" id="10">
+    <div  data-x="8000" data-y="8000" data-rotate="0" data-scale="1" class="slide step" id="15">
 
     <p>Runtime typechecks in constructor</p>
 
     <script src="https://gist.github.com/3043940.js?file=slide10.coffee"></script>
 
     </div>
-    <div  data-x="9000" data-y="9000" data-rotate="0" data-scale="1" class="slide step" id="11">
+    <div  data-x="9000" data-y="9000" data-rotate="0" data-scale="1" class="slide step" id="16">
 
     <p>Lazy initialization, method generation, triggers:</p>
 
@@ -197,7 +218,7 @@ typeof a == ...
     </script>
 
     </div>
-    <div  data-x="10000" data-y="10000" data-rotate="0" data-scale="1" class="slide step" id="12">
+    <div  style="font-size: 150%" data-x="10000" data-y="10000" data-rotate="0" data-scale="1" class="slide step" id="17">
     <h4>Status</h4>
     <ul>
         <li>proof-of-concept</li>
@@ -214,10 +235,15 @@ typeof a == ...
         <dd>http://www.sudftw.com/jackcon.htm</dd>
     </dl>
 
-    <quote>&#147;Legend also has it that female jackalopes can be milked as they sleep belly up and that the milk can be used for a variety of medicinal purposes&#148;</quote>
 
     </div>
 
+    <div  style="font-size: 150%" data-x="10500" data-y="1100" data-rotate="90" data-scale="1" class="slide step" id="18">
+
+    <quote>&#147;Legend also has it that female jackalopes can be milked as they sleep belly up and that the milk can be used for a variety of medicinal purposes&#148;</quote>
+
+    </div>    
+    
     </div>
     <script src="impress.js"></script>
     <script>impress().init();</script>
