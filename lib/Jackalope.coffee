@@ -7,7 +7,6 @@ TypeConstraints = require('./TypeConstraints').TypeConstraints
 # ...create python/jquery like class constructors
 
 Jackalope = {}   
-
         
 Jackalope.Meta =
     extend: ( obj )->
@@ -20,6 +19,9 @@ Jackalope.Meta =
         
         Jackalope.Attributes.createAccessor @prototype,
             name, args
+            
+    Maybe: ( type )->
+        new Jackalope.Maybe( type )
 
     attributes: ()->
         return @__attributes ?=

@@ -2,6 +2,9 @@ class TypeConstraints
     @check_type: ( value, name, args ) =>
         if @[args.isa]
             return @[args.isa]( value, name, args )
+            
+        if args instanceof TypeConstraints
+            return args.check_type( value, name )
 
         @__Instance( value, name, args )
 
@@ -40,5 +43,23 @@ class TypeConstraints
 
     @__Instance: ( value, name, args )=>
         @assert  value instanceof args.isa, value, name, args
+
+
+class TypeConstraints.Type extends TypeConstraints
+    constructor: ( @isa )->
+        # pass
+
+    check_type: ( value, name )->
+        TypeConstraints.check_type value, name, isa: @isa
+
+
+class TypeConstraints.Maybe extends TypeConstraints.Type
+    constructor: ( @isa )->
+        # pass
+        
+    check_type: ( value, name )->        
+        return true unless value?
+        super value, name, @isa
+        
 
 exports.TypeConstraints = TypeConstraints

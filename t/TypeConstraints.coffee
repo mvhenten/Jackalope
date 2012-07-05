@@ -48,12 +48,14 @@ cases =
         throws_ok: [ '', '1', true, {}, [], NaN, undefined, null, (new Object()), -> ]
         ok: [ (new Foo()) ]
 
-
-runTestCase = ( name, cases )->
+nTests = ( cases )->
     for key, value of cases
       n_tests = ( n_tests ? 0 ) + value.length
+    return n_tests
 
-    test "#{name}", n_tests, ()->
+
+runTestCase = ( name, cases )->
+    test "#{name}", nTests( cases ), ()->
         args = { isa: test_case.isa }
 
         for value in test_case.throws_ok
@@ -71,3 +73,38 @@ runTestCase = ( name, cases )->
 
 
 runTestCase( name, test_case ) for name, test_case of cases
+
+
+#runMaybeTestCase = ( name, cases )->
+#    maybe = ( type )->
+#        new Jackalope.TypeConstraints.Maybe( type );
+#        
+#    test "#{name}", nTests( cases ), ()->
+#        args = { isa: maybe( test_case.isa ) }
+#
+#        for value in test_case.throws_ok
+#            do ( value )=>
+#                throws_ok ()->
+#                    Jackalope.TypeConstraints.check_type( value, 'isa', args  )
+#                , /is not a/
+#
+#        for value in test_case.ok
+#            do ( value )=>
+#                console.log value instanceof Array, 'ok'
+#
+#                ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
+#                , "#{value} isa #{args.isa}"
+#    
+#runMaybeTestCase( name, test_case ) for name, test_case of cases
+
+
+
+test 'Maybe', 1, ()->
+    maybe = new Jackalope.TypeConstraints.Maybe( 'Int' );
+ 
+    ok maybe.check_type(), 'one is ok'   
+    ok maybe.check_type(1), 'one is ok'   
+
+    throws_ok ()->
+        maybe.check_type('not an int')
+    , /is not a/

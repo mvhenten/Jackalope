@@ -176,6 +176,24 @@ test 'Handles', 1, ()->
                 
     handler = new Handler()    
     eq 42, handler.amount(), 'Expected value returned by handles'
+    
+test 'Maybe', 1, ()->
+    class Might extends Jackalope.Class
+        @has 'something',
+            isa: @Maybe 'Int'
+    
+    might = new Might()
+    
+    eq null, might.something(), 'Maybe something returns null'
+    
+    might = new Might( something: 90 )
+    
+    eq 90, might.something(), 'Maybe something returns value'
+    
+    throws_ok ()->
+        new Might( something: 0.5 )
+    , /is not a/
+
 
 test 'Trait: Object', 13, ()->
     defaults = { one: 2, two: {a:'b'}, three: [3] }
