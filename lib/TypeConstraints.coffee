@@ -1,19 +1,22 @@
 class TypeConstraints
     @check_type: ( value, name, args ) =>
+        throw "No 'isa' for #{name}" unless args.isa
+
         if @[args.isa]
             return @[args.isa]( value, name, args )
-            
-        if args instanceof TypeConstraints
-            return args.check_type( value, name )
+
+        if args.isa instanceof TypeConstraints.Type
+            return args.isa.check_type( value, name )
 
         @__Instance( value, name, args )
 
 
     @assert: ( ok, value, name, args ) =>
         if not ok
+            an = 'an' if ( typeof args.isa == 'string' and args.isa[0].match( /aeou/ ) ) or 'a'
             throw "Assertion failed for " +
-                "'#{name}', '#{value}' is not a #{args.isa}"
-                
+                "'#{name}', '#{value}' is not #{an} #{args.isa}"
+
         return true
 
     @Str: ( value, name, args )=>
@@ -42,6 +45,7 @@ class TypeConstraints
         @assert typeof value == 'function', value, name, args
 
     @__Instance: ( value, name, args )=>
+        @assert typeof value == 'object', value, name, { isa: "instance of something" }
         @assert  value instanceof args.isa, value, name, args
 
 
@@ -49,17 +53,19 @@ class TypeConstraints.Type extends TypeConstraints
     constructor: ( @isa )->
         # pass
 
-    check_type: ( value, name )->
-        TypeConstraints.check_type value, name, isa: @isa
+    check_type: ( value, name, args )->
+        TypeConstraints.check_type value, name, args
 
 
-class TypeConstraints.Maybe extends TypeConstraints.Type
+class TypeConstraints.Type.Maybe extends TypeConstraints.Type
     constructor: ( @isa )->
         # pass
-        
-    check_type: ( value, name )->        
+
+    check_type: ( value, name )->
         return true unless value?
-        super value, name, @isa
-        
+        super value, name, isa: @isa
+
+TypeConstraints.Maybe = ( type )->
+  return new TypeConstraints.Type.Maybe( type )
 
 exports.TypeConstraints = TypeConstraints

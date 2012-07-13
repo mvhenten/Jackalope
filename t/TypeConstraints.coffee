@@ -10,7 +10,7 @@ class Foo
 cases =
     Boolean:
         isa: 'Bool'
-        throws_ok: [ '' , 1, 'true', {}, [] ]
+        throws_ok: [ '' , 1, 'true', {}, [], undefined, null ]
         ok: [ true, false ]
 
     Number:
@@ -45,66 +45,71 @@ cases =
 
     InstanceOf:
         isa: Foo
-        throws_ok: [ '', '1', true, {}, [], NaN, undefined, null, (new Object()), -> ]
+        throws_ok: [ '', '1', true, {}, [], NaN, undefined, null, (new Object()), (->) ]
         ok: [ (new Foo()) ]
 
 nTests = ( cases )->
+    n_tests = 0
     for key, value of cases
-      n_tests = ( n_tests ? 0 ) + value.length
+        continue if key is 'isa'
+        n_tests = ( n_tests ? 0 ) + value.length
+
     return n_tests
 
 
-runTestCase = ( name, cases )->
-    test "#{name}", nTests( cases ), ()->
-        args = { isa: test_case.isa }
+runTestCase = ( name, testCase )->
+    test "TypeConstraint #{name}", nTests( testCase ), ()->
+        args = { isa: testCase.isa }
 
-        for value in test_case.throws_ok
+        console.log "  ## Testing throws_ok #{name}"
+        for value in testCase.throws_ok
             do ( value )=>
                 throws_ok ()->
                     Jackalope.TypeConstraints.check_type( value, 'isa', args  )
                 , /is not a/
 
-        for value in test_case.ok
+        console.log "  ## Testing ok #{name}"
+        for value in testCase.ok
             do ( value )=>
-                console.log value instanceof Array, 'ok'
-
                 ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
-                , "#{value} isa #{args.isa}"
-
+                , "#{value} isa \"#{args.isa}\""
 
 runTestCase( name, test_case ) for name, test_case of cases
 
+test 'Maybe', 7, ()->
+    maybe_cases =
+        Bool: true
+        Number: 99.9
+        Int: 10
+        Str: 'a string'
+        Function: ()->
+        Object: { iam: 'object' }
+        Array: ['an array']
 
-#runMaybeTestCase = ( name, cases )->
-#    maybe = ( type )->
-#        new Jackalope.TypeConstraints.Maybe( type );
-#        
-#    test "#{name}", nTests( cases ), ()->
-#        args = { isa: maybe( test_case.isa ) }
-#
-#        for value in test_case.throws_ok
-#            do ( value )=>
-#                throws_ok ()->
-#                    Jackalope.TypeConstraints.check_type( value, 'isa', args  )
-#                , /is not a/
-#
-#        for value in test_case.ok
-#            do ( value )=>
-#                console.log value instanceof Array, 'ok'
-#
-#                ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
-#                , "#{value} isa #{args.isa}"
-#    
-#runMaybeTestCase( name, test_case ) for name, test_case of cases
+    for type, value of maybe_cases
+        args = { isa: Jackalope.TypeConstraints.Maybe "#{type}" }
+        ok Jackalope.TypeConstraints.check_type( value, "Check #{type}:", args  )
 
 
+runMaybeTestCase = ( name, testCase )->
+    test "Maybe TypeConstraint #{name}", nTests( testCase ), ()->
+        args = { isa: Jackalope.TypeConstraints.Maybe testCase.isa }
 
-test 'Maybe', 1, ()->
-    maybe = new Jackalope.TypeConstraints.Maybe( 'Int' );
- 
-    ok maybe.check_type(), 'one is ok'   
-    ok maybe.check_type(1), 'one is ok'   
+        console.log "  ## Testing throws_ok #{name}"
+        for value in testCase.throws_ok
+            do ( value )=>
+                if value?
+                    throws_ok ()->
+                        Jackalope.TypeConstraints.check_type( value, 'isa', args  )
+                    , /is not a/
+                else
+                    ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
+                    , "#{value} is ok for Maybe"
 
-    throws_ok ()->
-        maybe.check_type('not an int')
-    , /is not a/
+        console.log "  ## Testing ok #{name}"
+        for value in testCase.ok
+            do ( value )=>
+                ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
+                , "#{value} isa \"#{args.isa}\""
+
+runMaybeTestCase( name, test_case ) for name, test_case of cases
