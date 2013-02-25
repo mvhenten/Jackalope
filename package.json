@@ -1,0 +1,9 @@
+{
+  "name": "Jackalope",
+  "description": "Javascript with antlers",
+  "homepage": 'https://github.com/mvhenten/Jackalope',
+  "version": "0.0.1",
+  "dependencies": {
+    "coffee-script": ">=1.5.0",
+  }
+}
