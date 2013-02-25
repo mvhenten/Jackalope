@@ -177,15 +177,15 @@ test 'Handles', 1, ()->
     handler = new Handler()    
     eq 42, handler.amount(), 'Expected value returned by handles'
     
-test 'Maybe', 1, ()->
+test 'Maybe', 3, ()->
     class Might extends Jackalope.Class
         @has 'something',
             isa: @Maybe 'Int'
     
 
     might = new Might()
-    
-    eq null, might.something(), 'Maybe something returns null'
+        
+    eq undefined, might.something(), 'Maybe something returns null'
     
     might = new Might( something: 90 )
     
