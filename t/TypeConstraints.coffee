@@ -1,4 +1,4 @@
-Jackalope = require '../lib/TypeConstraints'
+Jackalope = require '../src/TypeConstraints'
 
 [test, ok, throws_ok] = require('./lib/test')
     .export 'test','ok','throws_ok'

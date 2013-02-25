@@ -1,7 +1,7 @@
 [test, ok, eq, ne, throws_ok ] = require('./lib/test')
     .export 'test','ok', 'is', 'isnt', 'throws_ok'
 
-Jackalope = require('../lib/Jackalope')
+Jackalope = require('../src/Jackalope')
 
 
 class Student extends Jackalope.Class
@@ -56,7 +56,7 @@ test 'External constructor sets values', 1, ()->
 test 'Constructor checks type constraints', 1, ()->        
     throws_ok ()->
         student = new Student( age: 1.4 )
-    , /Assertion failed for 'age', '1.4' is not a Int/
+    , /Assertion failed for 'age', '1.4' is not an Int/
     , 'Typeconstraints work on constructor'
     
 test 'Accessor', 1, ()->
@@ -182,6 +182,7 @@ test 'Maybe', 1, ()->
         @has 'something',
             isa: @Maybe 'Int'
     
+
     might = new Might()
     
     eq null, might.something(), 'Maybe something returns null'
@@ -193,7 +194,7 @@ test 'Maybe', 1, ()->
     throws_ok ()->
         new Might( something: 0.5 )
     , /is not a/
-
+    
 
 test 'Trait: Object', 13, ()->
     defaults = { one: 2, two: {a:'b'}, three: [3] }

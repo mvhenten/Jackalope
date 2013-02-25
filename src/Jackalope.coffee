@@ -11,6 +11,7 @@ Jackalope = {}
 Jackalope.Meta =
     extend: ( obj )->
         obj.has = Jackalope.Meta.has    
+        obj.Maybe = Jackalope.Meta.Maybe
         obj.prototype.attributes = Jackalope.Meta.attributes
     
     has: (name, args)->
@@ -21,7 +22,7 @@ Jackalope.Meta =
             name, args
             
     Maybe: ( type )->
-        new Jackalope.Maybe( type )
+        new TypeConstraints.Maybe type
 
     attributes: ()->
         return @__attributes ?=
