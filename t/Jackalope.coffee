@@ -1,7 +1,12 @@
 [test, ok, eq, ne, throws_ok ] = require('./lib/test')
     .export 'test','ok', 'is', 'isnt', 'throws_ok'
 
-Jackalope = require('../src/Jackalope')
+# // run tests pure coffee
+# lib = require "../src/Jackalope"
+
+# // run tests on compiled library
+lib         = require '../lib/jackalope'
+Jackalope   = lib.require 'Jackalope'
 
 
 class Student extends Jackalope.Class

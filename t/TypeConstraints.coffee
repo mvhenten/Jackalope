@@ -1,4 +1,6 @@
-Jackalope = require '../src/TypeConstraints'
+
+lib             = require '../lib/jackalope'
+TypeConstraints = lib.require 'TypeConstraints'
 
 [test, ok, throws_ok] = require('./lib/test')
     .export 'test','ok','throws_ok'
@@ -65,14 +67,14 @@ runTestCase = ( name, testCase )->
         for value in testCase.throws_ok
             do ( value )=>
                 throws_ok ()->
-                    Jackalope.TypeConstraints.check_type( value, 'isa', args  )
+                    TypeConstraints.TypeConstraints.check_type( value, 'isa', args  )
                 , /is not a/
 
         console.log "  ## Testing ok #{name}"
         for value in testCase.ok
             do ( value )=>
-                ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
-                , "#{value} isa \"#{args.isa}\""
+                ok TypeConstraints.TypeConstraints.check_type( (value), 'isa', args  )
+                , "#{value} isa '#{args.isa}'"
 
 runTestCase( name, test_case ) for name, test_case of cases
 
@@ -87,29 +89,29 @@ test 'Maybe', 7, ()->
         Array: ['an array']
 
     for type, value of maybe_cases
-        args = { isa: Jackalope.TypeConstraints.Maybe "#{type}" }
-        ok Jackalope.TypeConstraints.check_type( value, "Check #{type}:", args  )
+        args = { isa: TypeConstraints.TypeConstraints.Maybe "#{type}" }
+        ok TypeConstraints.TypeConstraints.check_type( value, "Check #{type}:", args  )
 
 
 runMaybeTestCase = ( name, testCase )->
     test "Maybe TypeConstraint #{name}", nTests( testCase ), ()->
-        args = { isa: Jackalope.TypeConstraints.Maybe testCase.isa }
+        args = { isa: TypeConstraints.TypeConstraints.Maybe testCase.isa }
 
         console.log "  ## Testing throws_ok #{name}"
         for value in testCase.throws_ok
             do ( value )=>
                 if value?
                     throws_ok ()->
-                        Jackalope.TypeConstraints.check_type( value, 'isa', args  )
+                        TypeConstraints.TypeConstraints.check_type( value, 'isa', args  )
                     , /is not a/
                 else
-                    ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
+                    ok TypeConstraints.TypeConstraints.check_type( (value), 'isa', args  )
                     , "#{value} is ok for Maybe"
 
         console.log "  ## Testing ok #{name}"
         for value in testCase.ok
             do ( value )=>
-                ok Jackalope.TypeConstraints.check_type( (value), 'isa', args  )
+                ok TypeConstraints.TypeConstraints.check_type( (value), 'isa', args  )
                 , "#{value} isa \"#{args.isa}\""
 
 runMaybeTestCase( name, test_case ) for name, test_case of cases
