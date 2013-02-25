@@ -1,9 +1,33 @@
 {
-  "name": "Jackalope",
-  "description": "Javascript with antlers",
-  "homepage": 'https://github.com/mvhenten/Jackalope',
+  "name": "jackalope",
   "version": "0.0.1",
-  "dependencies": {
-    "coffee-script": ">=1.5.0",
-  }
+  "description": "Javascript with antlers",
+  "main": "./lib/jackalope.js",
+  "directories": {
+    "doc": "doc"
+  },
+  "scripts": {
+    "test": "sh ./scripts/test.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/mvhenten/Jackalope.git"
+  },
+  "keywords": [
+    "coffeescript",
+    "moose",
+    "joose",
+    "meta",
+    "class",
+    "class",
+    "extension",
+    "system",
+    "post-modern",
+    "class",
+    "system"
+  ],
+  "author": "Matthijs van Henten",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "gitHead": "cf1ad50bd69278da2a6167d78cadff146bf53f12"
 }
