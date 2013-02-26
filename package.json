@@ -2,7 +2,7 @@
   "name": "jackalope",
   "version": "0.0.2",
   "description": "Javascript with antlers",
-  "main": "./lib/jackalope.js",
+  "main": "./index.js",
   "directories": {
     "doc": "doc"
   },

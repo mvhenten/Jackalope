@@ -1,6 +1,6 @@
 
 # // run tests on compiled library
-Jackalope       = require '../lib/jackalope'
+Jackalope       = require '../'
 TypeConstraints = Jackalope.TypeConstraints
 
 [test, ok, throws_ok] = require('./lib/test')
