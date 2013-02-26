@@ -5,9 +5,7 @@
 # lib = require "../src/Jackalope"
 
 # // run tests on compiled library
-lib         = require '../lib/jackalope'
-Jackalope   = lib.require 'Jackalope'
-
+Jackalope = require '../lib/jackalope'
 
 class Student extends Jackalope.Class
     @has 'name',
