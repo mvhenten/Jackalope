@@ -119,6 +119,23 @@ test 'Prototype and instance, extends', 2, ()->
     eq 1000, novel.pages(), 'One instance has expected value'
     ne novel.pages(), novella.pages(), 'Instances have different values'
 
+test 'Clearer', 1, ()->    
+    class Clean extends Jackalope.Class
+        @has 'foo',
+            isa: 'Int'
+            clearer: 'clearFoo'
+            writer: 'setFoo'
+            
+            
+    obj = new Clean( foo: 42 )
+    
+    eq 42, obj.foo(), 'Value set in constructor'
+    obj.clearFoo()    
+    eq null, obj.foo(), 'Value cleared'
+    obj.setFoo( 100 )
+    eq 100, obj.foo(), 'Value set trough writer'
+    obj.clearFoo()
+    eq null, obj.foo(), 'Value cleared'
 
 test 'Lazy build', 1, ()->    
     class Lazy extends Jackalope.Class
