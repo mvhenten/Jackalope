@@ -131,11 +131,11 @@ test 'Clearer', 1, ()->
     
     eq 42, obj.foo(), 'Value set in constructor'
     obj.clearFoo()    
-    eq null, obj.foo(), 'Value cleared'
+    eq undefined, obj.foo(), 'Value cleared'
     obj.setFoo( 100 )
     eq 100, obj.foo(), 'Value set trough writer'
     obj.clearFoo()
-    eq null, obj.foo(), 'Value cleared'
+    eq undefined, obj.foo(), 'Value cleared'
 
 test 'Lazy build', 1, ()->    
     class Lazy extends Jackalope.Class

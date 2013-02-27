@@ -88,7 +88,7 @@ Jackalope.Attributes =
         
     createClearer: ( proto, name, args ) ->
         proto[args.clearer] = ()->
-            @__values[name] = null
+            delete @__values[name]
 
     createWriter: ( proto, name, args )->
         proto[args.writer] = ( value )->
