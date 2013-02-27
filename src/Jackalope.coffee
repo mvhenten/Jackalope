@@ -36,10 +36,10 @@ Jackalope.Meta =
             
             value = ctor_args[0]?[key]
             
-            continue unless value or config.required
+            continue unless value? or config.required
         
             if config.required
-               throw Error "#{key} is required!" unless value
+               throw Error "#{key} is required!" unless value?
         
             Jackalope.Attributes.writeValue.call this,
                 name, value, config
