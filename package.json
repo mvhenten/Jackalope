@@ -1,6 +1,6 @@
 {
   "name": "jackalope",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Javascript with antlers",
   "main": "./index.js",
   "directories": {
@@ -29,5 +29,5 @@
   "author": "Matthijs van Henten",
   "license": "BSD",
   "readmeFilename": "README.md",
-  "gitHead": "4078a32bc83256be05560d22a2e006a4fc810105"
+  "gitHead": "64ddc6a7742eac3413153ebd3e2966b1414d6a16"
 }
