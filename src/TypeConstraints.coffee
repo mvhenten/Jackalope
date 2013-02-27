@@ -68,4 +68,44 @@ class TypeConstraints.Type.Maybe extends TypeConstraints.Type
 TypeConstraints.Maybe = ( type )->
   return new TypeConstraints.Type.Maybe( type )
 
+Utils =
+    isa: ( typeName, value, name ) ->
+        args = { isa: typeName }
+        name ?= 'Unknown'
+        
+        TypeConstraints.check_type value, name, args
+        
+    are: ( typeName, values, name ) ->
+        for value, i in values
+            @isa typeName, value, 'Value #' + i
+
+    isArray: ( value, name ) ->
+        @isa( 'Array', value, name )
+
+    isBool: ( value, name ) ->
+        @isa( 'Bool', value, name )
+
+    isFunction: ( value, name ) ->
+        @isa( 'Function', value, name )
+
+    isInt: ( value, name ) ->
+        @isa( 'Int', value, name )
+
+    isNum: ( value, name ) ->
+        @isa( 'Number', value, name )
+
+    isNumber: ( value, name ) ->
+        @isNum( value, name )
+
+    isObject: ( value, name ) ->
+        @isa( 'Object', value, name )
+
+    isStr: ( value, name ) ->
+        @isa( 'Str', value, name )
+
+    isString: ( value, name ) ->
+        @isStr( value, name )
+
+
 exports.TypeConstraints = TypeConstraints
+exports.Utils = Utils
