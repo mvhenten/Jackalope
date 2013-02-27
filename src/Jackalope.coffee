@@ -84,6 +84,11 @@ Jackalope.Attributes =
         Jackalope.Attributes.createWriter( proto, name, args ) if args.writer
         Jackalope.Attributes.createTraits( proto, name, args ) if args.traits
         Jackalope.Attributes.createHandles( proto, name, args ) if args.handles
+        Jackalope.Attributes.createClearer( proto, name, args ) if args.clearer
+        
+    createClearer: ( proto, name, args ) ->
+        proto[args.clearer] = ()->
+            @__values[name] = null
 
     createWriter: ( proto, name, args )->
         proto[args.writer] = ( value )->

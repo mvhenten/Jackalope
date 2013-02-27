@@ -45,6 +45,7 @@ class TypeConstraints
         @assert typeof value == 'function', value, name, args
 
     @__Instance: ( value, name, args )=>
+        # TODO better error message when .isa is a string
         @assert typeof value == 'object', value, name, { isa: "instance of something" }
         @assert  value instanceof args.isa, value, name, args
 
