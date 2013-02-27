@@ -29,7 +29,22 @@ test 'Constructor sets attributes', 3, ()->
     for key, value of defaults
         eq( value, student[key](), "#{key} has expected value '#{value}'")
         
-test 'External constructor', 2, ()->
+test 'Regression falsish arguments', 2, ()->
+    class Foo extends Jackalope.Class
+        @has 'zero',
+            isa: 'Int'
+            required: true
+        
+        @has 'yes'
+            isa: 'Bool'
+            required: true
+            
+    obj = new Foo zero: 0, yes: false
+    eq( obj.zero(), 0, 'Constructor arg "0" is set' )
+    eq( obj.yes(), false, 'Constructor arg "false" is set' )
+    
+
+test 'External constructor', 2, ()->    
     class Book
         Jackalope.extend Book
         
@@ -54,7 +69,6 @@ test 'External constructor sets values', 1, ()->
 
     book = Book.create pages: 9
     eq 9, book.pages(), "different instance, different value"
-
 
 test 'Constructor checks type constraints', 1, ()->        
     throws_ok ()->
