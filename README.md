@@ -7,6 +7,8 @@ Jackalope is a class extension system with an API based entirely on Moose, the p
 
 That being said, Coffeescript **is just javascript** so Jackalope should be fairly portable. Implementation is kept as close to the Moose API as is in Javascript sane, and possible. Fortunately, surprisingly little trickery is needed to implement a nearly identical vocabulary and appearance usage using basic Javascript techniques.
 
+See also: http://mvhenten.github.com/Jackalope/
+
 ## Usage
 
 Jackalope comes in two flavours: as a base class for coffeescript objects to extend from, and as set of mixins that extend your object on the fly. The `Jackalope.Class` offers a base class with constructor that initializes
