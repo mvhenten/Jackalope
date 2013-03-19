@@ -6,42 +6,40 @@ methods with named arguments and syntax checking, wouldn't dat be awesome?
 the following syntax could achieve that in a unubtrusive manner:
 
 
-class Point extends Jackalope.Class
-    @has 'x',
-        isa: 'Int'
-        required: true
-        writer: '_setX'
+    class Point extends Jackalope.Class
+        @has 'x',
+            isa: 'Int'
+            required: true
+            writer: '_setX'
 
-    @has 'y',
-        isa: 'Int'
-        required: true
-        writer: '_setY'
+        @has 'y',
+            isa: 'Int'
+            required: true
+            writer: '_setY'
 
-   @method 'translate', translation: Point, (args)->
-     @_setX( @x() + args.x() )
-     @_setY( @y() + args.y() )
+       @method 'translate', translation: Point, (args)->
+         @_setX( @x() + args.x() )
+         @_setY( @y() + args.y() )
 
-   @method 'setXY', x: 'Int', y: 'Int', ( args ) ->
-     @_setX( args.x )
-     @_setY( args.y )
+       @method 'setXY', x: 'Int', y: 'Int', ( args ) ->
+         @_setX( args.x )
+         @_setY( args.y )
 
-   @method 'rotate', Point, angle: 'Degrees', ( center, args ) ->
-     translation = @_getTranslation( center, 0, 0 );
-     rotation  = args.angle * ( Math.PI / 180 )
-     # ... more math
+       @method 'rotate', Point, angle: 'Degrees', ( center, args ) ->
+         translation = @_getTranslation( center, 0, 0 );
+         rotation  = args.angle * ( Math.PI / 180 )
+         # ... more math
 
+    my point = new Point( x: 232, y: 351 );
 
+    # plain named arguments
+    point.translate( translation: new Point( -2, 2 ) )
 
-my point = new Point( x: 232, y: 351 );
+    # positional arguments
+    point.setXY( 32, 34 );
 
-# plain named arguments
-point.translate( translation: new Point( -2, 2 ) )
-
-# positional arguments
-point.setXY( 32, 34 );
-
-# mixing positional and named arguments
-point.rotate( new Point( 32, 45 ), angle: 90 );
+    # mixing positional and named arguments
+    point.rotate( new Point( 32, 45 ), angle: 90 );
 
 
 How about defaults? the following seems a bit clunky:
