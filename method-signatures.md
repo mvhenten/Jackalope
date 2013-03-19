@@ -5,6 +5,7 @@ methods with named arguments and syntax checking, wouldn't dat be awesome?
 
 the following syntax could achieve that in a unubtrusive manner:
 
+```coffeescript
 
     class Point extends Jackalope.Class
         @has 'x',
@@ -41,28 +42,36 @@ the following syntax could achieve that in a unubtrusive manner:
     # mixing positional and named arguments
     point.rotate( new Point( 32, 45 ), angle: 90 );
 
+```
 
 How about defaults? the following seems a bit clunky:
 
+```coffeescript
     class Point extends Jackalope.Class
        @method 'fade', duration: { 'Int': 90 }, opacity: 'Int', (args)->
+```
 
 This is not intuitive:
 
+```coffeescript
     class Point extends Jackalope.Class
        @method 'fade', duration: 'Int', 22, opacity: 'Int', (args)->
+```
 
 I like this the most: ( most elegant solution? )
 
+```coffeescript
     [ Default, Class ] = Jackalope.export 'Default', 'Class'
 
     class Point extends Class
        @method 'fade', duration: Default('Int', 33), opacity: 'Int', (args)->
+```
 
 ### Javascript
 
 This will look hidious in javascript:
 
+```javascript
     var Point, point, _ref, __hasProp = {}.hasOwnProperty,
     __extends = function(child, parent) {
       for (var key in parent) {
@@ -142,3 +151,4 @@ This will look hidious in javascript:
     point.rotate(new Point(32, 45), {
       angle: 90
     });
+```
