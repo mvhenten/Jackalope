@@ -31,7 +31,7 @@ the following syntax could achieve that in a unubtrusive manner:
          rotation  = args.angle * ( Math.PI / 180 )
          # ... more math
 
-    my point = new Point( x: 232, y: 351 );
+    point = new Point( x: 232, y: 351 );
 
     # plain named arguments
     point.translate( translation: new Point( -2, 2 ) )
@@ -137,10 +137,10 @@ This will look hidious in javascript:
       return rotation = args.angle * (Math.PI / 180);
     });
 
-    my(point = new Point({
+    point = new Point({
       x: 232,
       y: 351
-    }));
+    });
 
     point.translate({
       translation: new Point(-2, 2)
